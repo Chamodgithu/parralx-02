@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Parallax Image with Scroll and Tilt</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      font-family: sans-serif;
+      background: #f0f0f0;
+    }
+
+    section {
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+    }
+
+    .parallax-wrapper {
+      position: relative;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .parallax-image {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 110%;
+      height: 110%;
+      background-image: url('hj.jpg'); /* Replace with your image */
+      background-size: cover;
+      background-position: center;
+      will-change: transform;
+      transition: transform 0.1s ease-out;
+    }
+  </style>
+</head>
+<body>
+
+  <section>
+    Scroll down 👇
+  </section>
+
+  <div class="parallax-wrapper">
+    <div class="parallax-image" id="parallaxImage"></div>
+  </div>
+
+  <section>
+    Keep scrolling!
+  </section>
+
+  <script>
+    const image = document.getElementById("parallaxImage");
+
+    // Scroll effect
+    window.addEventListener("scroll", () => {
+      const scrollY = window.scrollY;
+      image.style.transform = `translateY(${scrollY * 0.2}px)`;
+    });
+
+    // Tilt effect (for phones)
+    window.addEventListener("deviceorientation", (e) => {
+      const x = e.gamma || 0; // left/right
+      const y = e.beta || 0;  // front/back
+
+      const moveX = x * 1.5;
+      const moveY = y * 1.5;
+
+      image.style.transform = `translate(${moveX}px, ${window.scrollY * 0.2 + moveY}px)`;
+    });
+  </script>
+</body>
+</html>
